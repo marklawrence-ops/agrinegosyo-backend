@@ -1,59 +1,109 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AgriNegosyo: DTI-DA Price Compliance & Market Intelligence Bridge
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[cite_start]This system automatically parses the weekly DA Price PDF into JSON, compares it with MSME inventory prices, and triggers a Webhook alert if a retailer’s price exceeds the current SRP by >10%[cite: 1]. [cite_start]It addresses SDG 2 (Zero Hunger) and SDG 9 (Industry, Innovation, and Infrastructure)[cite: 1].
 
-## About Laravel
+## Team Members
+* [cite_start]**Mark Lawrence Lacdao** - Backend/API [cite: 1]
+* [cite_start]**Axyll Judd Picardal** - Data/Price Parsing [cite: 1]
+* [cite_start]**Aldrin Rey Taberara** - Frontend/MSME Dashboard [cite: 1]
+* [cite_start]**Christian Catada** - Data Analysis/Database [cite: 1]
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Technical Stack
+* [cite_start]**Backend:** PHP (Laravel), MySQL [cite: 1]
+* **Frontend:** React (Vite), Tailwind CSS
+* [cite_start]**Security:** Hashed identifiers for data privacy [cite: 1]
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Getting Started: Local Setup Guide
 
-## Learning Laravel
+### Prerequisites
+Make sure you have the following installed on your machine:
+* [XAMPP](https://www.apachefriends.org/) or Laragon (for PHP and MySQL)
+* [Composer](https://getcomposer.org/) (for Laravel dependencies)
+* [Node.js](https://nodejs.org/) (for Frontend dependencies)
+* Git
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Part 1: Backend (Laravel API) Setup
+1. **Clone the repository:**
+   ```bash
+   git clone <your-backend-repo-url>
+   cd agrinegosyo-backend
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. **Install dependencies:**
 
-## Laravel Sponsors
+   ```bash
+   composer install
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. **Environment Setup:**
+   
+   Copy the example env file: cp .env.example .env
 
-### Premium Partners
+    Generate the app key: php artisan key:generate
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+    Open .env and configure your database:
 
-## Contributing
+      Code snippet
+      
+        DB_CONNECTION=mysql
+        DB_HOST=127.0.0.1
+        DB_PORT=3306
+        DB_DATABASE=agrinegosyo
+        DB_USERNAME=root
+        DB_PASSWORD=
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+   Add the Discord Webhook for alerts:
 
-## Code of Conduct
+      Code snippet
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+        ALERT_WEBHOOK_URL="your_discord_webhook_url_here"
 
-## Security Vulnerabilities
+4. **Run Database Migrations:**
+    (Ensure MySQL is running via XAMPP before doing this)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
+    
+   Start the Backend Server:
+    ```bash
+    php artisan serve
+    ```
 
-## License
+    The API will now be running at http://127.0.0.1:8000
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Part 2: Frontend (React/Vite) Setup
+
+1. **Clone the repository:**
+    (Open a new terminal window)
+   
+    ```bash
+    git clone <your-frontend-repo-url>
+    cd agrinegosyo-frontend
+    ```
+
+3. **Install dependencies:**
+
+    ```bash
+    npm install
+    ```
+
+5. **Start the Frontend Server:**
+
+    ```bash
+    npm run dev
+    ```
+
+The dashboard will now be visible at http://localhost:5173
+
+### 🛠️ Commands for Testing
+
+Trigger the DA Price Parser:
+
+To manually test the CSV parsing and trigger Discord alerts for overpricing violations, run:
+
+  ```bash
+  php artisan prices:fetch-da
+  ```
