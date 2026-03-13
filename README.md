@@ -1,18 +1,18 @@
 # AgriNegosyo: DTI-DA Price Compliance & Market Intelligence Bridge
 
-* [cite_start] This system automatically parses the weekly DA Price PDF into JSON, compares it with MSME inventory prices, and triggers a Webhook alert if a retailer’s price exceeds the current SRP by >10% [cite: 1].
-* [cite_start]It addresses SDG 2 (Zero Hunger) and SDG 9 (Industry, Innovation, and Infrastructure) [cite: 1].
+* This system automatically parses the weekly DA Price PDF into JSON, compares it with MSME inventory prices, and triggers a Webhook alert if a retailer’s price exceeds the current SRP by >10%.
+* It addresses SDG 2 (Zero Hunger) and SDG 9 (Industry, Innovation, and Infrastructure).
 
 ## Team Members
-* [cite_start]**Mark Lawrence Lacdao** - Backend/API [cite: 1]
-* [cite_start]**Axyll Judd Picardal** - Data/Price Parsing [cite: 1]
-* [cite_start]**Aldrin Rey Taberara** - Frontend/MSME Dashboard [cite: 1]
-* [cite_start]**Christian Catada** - Data Analysis/Database [cite: 1]
+* **Mark Lawrence Lacdao** - Backend/API
+* **Axyll Judd Picardal** - Data/Price Parsing
+* **Aldrin Rey Taberara** - Frontend/MSME Dashboard 
+* **Christian Catada** - Data Analysis/Database
 
 ## Technical Stack
-* [cite_start]**Backend:** PHP (Laravel), MySQL [cite: 1]
+* **Backend:** PHP (Laravel), MySQL 
 * **Frontend:** React (Vite), Tailwind CSS
-* [cite_start]**Security:** Hashed identifiers for data privacy [cite: 1]
+* **Security:** Hashed identifiers for data privacy
 
 ---
 
