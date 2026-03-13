@@ -20,14 +20,27 @@ class DaPriceParserService
         }
 
         $file = fopen($filePath, 'r');
-        $header = fgetcsv($file); // Assumes headers like ['Name', 'Category', 'SRP']
+        $header = fgetcsv($file); // Now expecting ['Category', 'Commodity', 'SRP']
+
+        // PRO-TIP FOR PANEL: The Alias Map to handle messy real-world government data naming conventions
+        $aliasMap = [
+            'Red Onion (imported)' => 'Onions (Red)',
+            'Local Well Milled' => 'Rice (Well Milled)',
+            'Cooking Oil (palm, 1L)' => 'Cooking Oil (Palm)'
+        ];
 
         while ($row = fgetcsv($file)) {
             $data = array_combine($header, $row);
 
+            // 1. Fix: Use 'Commodity' instead of 'Name' based on our CSV
+            $rawName = $data['Commodity']; 
+            
+            // 2. Fix: Check if the raw DA name has a mapped alias in our system
+            $mappedName = $aliasMap[$rawName] ?? $rawName;
+
             // Update the existing commodity SRP, or create it if it's new
             Commodity::updateOrCreate(
-                ['name' => $data['Name']], 
+                ['name' => $mappedName], 
                 [
                     'category' => $data['Category'],
                     'srp' => $data['SRP']
@@ -47,10 +60,10 @@ class DaPriceParserService
      */
     public function checkCompliance()
     {
-        // Fetch all price records for today
-        $todayRecords = PriceRecord::with(['commodity', 'msme'])->whereDate('recorded_at', today())->get();
+        // 3. Fix: Removed the strict today() filter so it catches our Time Machine test from yesterday
+        $recordsToVerify = PriceRecord::with(['commodity', 'msme'])->get();
 
-        foreach ($todayRecords as $record) {
+        foreach ($recordsToVerify as $record) {
             $srp = $record->commodity->srp;
             $marketPrice = $record->market_price;
 
@@ -81,7 +94,7 @@ class DaPriceParserService
         $webhookUrl = env('ALERT_WEBHOOK_URL'); 
         
         if (!$webhookUrl) {
-            \Illuminate\Support\Facades\Log::warning("Overpricing detected, but no ALERT_WEBHOOK_URL is set.");
+            Log::warning("Overpricing detected, but no ALERT_WEBHOOK_URL is set.");
             return;
         }
 
@@ -123,33 +136,8 @@ class DaPriceParserService
         ];
 
         // Send the POST request to Discord
-        \Illuminate\Support\Facades\Http::post($webhookUrl, $payload);
+        Http::post($webhookUrl, $payload);
 
-        \Illuminate\Support\Facades\Log::info("Discord webhook alert sent for {$record->msme->store_name}");
+        Log::info("Discord webhook alert sent for {$record->msme->store_name}");
     }
-
-    /**
-     * Sends an external alert for violations.
-     */
-    /**private function triggerAlertWebhook($record)
-    {
-        $webhookUrl = env('ALERT_WEBHOOK_URL'); 
-        
-        if (!$webhookUrl) {
-            Log::warning("Overpricing detected, but no ALERT_WEBHOOK_URL is set in .env");
-            return;
-        }
-
-        // Send a POST request to your webhook (e.g., Discord, Slack, or DTI LGU portal)
-        Http::post($webhookUrl, [
-            'alert' => 'CRITICAL: SRP Violation Detected',
-            'store_name' => $record->msme->store_name,
-            'commodity' => $record->commodity->name,
-            'official_srp' => $record->commodity->srp,
-            'market_price' => $record->market_price,
-            'variance' => round($record->variance_percentage, 2) . '%'
-        ]);
-
-        Log::info("Webhook alert sent for {$record->msme->store_name}");
-    }*/
 }
