@@ -1,6 +1,7 @@
 # AgriNegosyo: DTI-DA Price Compliance & Market Intelligence Bridge
 
-[cite_start]This system automatically parses the weekly DA Price PDF into JSON, compares it with MSME inventory prices, and triggers a Webhook alert if a retailer’s price exceeds the current SRP by >10%[cite: 1]. [cite_start]It addresses SDG 2 (Zero Hunger) and SDG 9 (Industry, Innovation, and Infrastructure)[cite: 1].
+* [cite_start] This system automatically parses the weekly DA Price PDF into JSON, compares it with MSME inventory prices, and triggers a Webhook alert if a retailer’s price exceeds the current SRP by >10% [cite: 1].
+* [cite_start]It addresses SDG 2 (Zero Hunger) and SDG 9 (Industry, Innovation, and Infrastructure) [cite: 1].
 
 ## Team Members
 * [cite_start]**Mark Lawrence Lacdao** - Backend/API [cite: 1]
@@ -41,9 +42,9 @@ Make sure you have the following installed on your machine:
    
    Copy the example env file: cp .env.example .env
 
-    Generate the app key: php artisan key:generate
+   Generate the app key: php artisan key:generate
 
-    Open .env and configure your database:
+   Open .env and configure your database:
 
       Code snippet
       
@@ -61,7 +62,7 @@ Make sure you have the following installed on your machine:
         ALERT_WEBHOOK_URL="your_discord_webhook_url_here"
 
 4. **Run Database Migrations:**
-    (Ensure MySQL is running via XAMPP before doing this)
+    *(Ensure MySQL is running via XAMPP before doing this)*
 
     ```bash
     php artisan migrate:fresh --seed
@@ -77,7 +78,7 @@ Make sure you have the following installed on your machine:
 ### Part 2: Frontend (React/Vite) Setup
 
 1. **Clone the repository:**
-    (Open a new terminal window)
+    *(Open a new terminal window)*
    
     ```bash
     git clone <your-frontend-repo-url>
@@ -91,9 +92,10 @@ Make sure you have the following installed on your machine:
     ```
 
 5. **Start the Frontend Server:**
-
+   *(Note: The legacy-peer-deps flag is required to bypass a known strict version conflict between Vite 8 and Tailwind CSS)*
+   
     ```bash
-    npm run dev
+   npm install --legacy-peer-deps
     ```
 
 The dashboard will now be visible at http://localhost:5173
